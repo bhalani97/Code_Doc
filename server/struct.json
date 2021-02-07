@@ -1,0 +1,10 @@
+[
+    {
+        "path":"/admin/note/paginate",
+        "methodName":"admin",
+        "exec":{
+            
+        }
+
+    }
+]

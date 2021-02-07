@@ -1,0 +1,495 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 450,
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "start": 0,
+      "end": 35,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "start": 6,
+          "end": 34,
+          "id": {
+            "type": "Identifier",
+            "start": 6,
+            "end": 13,
+            "name": "express"
+          },
+          "init": {
+            "type": "CallExpression",
+            "start": 16,
+            "end": 34,
+            "callee": {
+              "type": "Identifier",
+              "start": 16,
+              "end": 23,
+              "name": "require"
+            },
+            "arguments": [
+              {
+                "type": "Literal",
+                "start": 24,
+                "end": 33,
+                "value": "express",
+                "raw": "'express'"
+              }
+            ],
+            "optional": false
+          }
+        }
+      ],
+      "kind": "const"
+    },
+    {
+      "type": "VariableDeclaration",
+      "start": 36,
+      "end": 68,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "start": 42,
+          "end": 67,
+          "id": {
+            "type": "Identifier",
+            "start": 42,
+            "end": 48,
+            "name": "router"
+          },
+          "init": {
+            "type": "CallExpression",
+            "start": 51,
+            "end": 67,
+            "callee": {
+              "type": "MemberExpression",
+              "start": 51,
+              "end": 65,
+              "object": {
+                "type": "Identifier",
+                "start": 51,
+                "end": 58,
+                "name": "express"
+              },
+              "property": {
+                "type": "Identifier",
+                "start": 59,
+                "end": 65,
+                "name": "Router"
+              },
+              "computed": false,
+              "optional": false
+            },
+            "arguments": [],
+            "optional": false
+          }
+        }
+      ],
+      "kind": "const"
+    },
+    {
+      "type": "VariableDeclaration",
+      "start": 69,
+      "end": 201,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "start": 75,
+          "end": 200,
+          "id": {
+            "type": "ObjectPattern",
+            "start": 75,
+            "end": 163,
+            "properties": [
+              {
+                "type": "Property",
+                "start": 81,
+                "end": 91,
+                "method": false,
+                "shorthand": true,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 81,
+                  "end": 91,
+                  "name": "createNote"
+                },
+                "kind": "init",
+                "value": {
+                  "type": "Identifier",
+                  "start": 81,
+                  "end": 91,
+                  "name": "createNote"
+                }
+              },
+              {
+                "type": "Property",
+                "start": 97,
+                "end": 107,
+                "method": false,
+                "shorthand": true,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 97,
+                  "end": 107,
+                  "name": "deleteNote"
+                },
+                "kind": "init",
+                "value": {
+                  "type": "Identifier",
+                  "start": 97,
+                  "end": 107,
+                  "name": "deleteNote"
+                }
+              },
+              {
+                "type": "Property",
+                "start": 113,
+                "end": 120,
+                "method": false,
+                "shorthand": true,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 113,
+                  "end": 120,
+                  "name": "getNote"
+                },
+                "kind": "init",
+                "value": {
+                  "type": "Identifier",
+                  "start": 113,
+                  "end": 120,
+                  "name": "getNote"
+                }
+              },
+              {
+                "type": "Property",
+                "start": 126,
+                "end": 136,
+                "method": false,
+                "shorthand": true,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 126,
+                  "end": 136,
+                  "name": "updateNote"
+                },
+                "kind": "init",
+                "value": {
+                  "type": "Identifier",
+                  "start": 126,
+                  "end": 136,
+                  "name": "updateNote"
+                }
+              },
+              {
+                "type": "Property",
+                "start": 142,
+                "end": 154,
+                "method": false,
+                "shorthand": true,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 142,
+                  "end": 154,
+                  "name": "paginateNote"
+                },
+                "kind": "init",
+                "value": {
+                  "type": "Identifier",
+                  "start": 142,
+                  "end": 154,
+                  "name": "paginateNote"
+                }
+              }
+            ]
+          },
+          "init": {
+            "type": "CallExpression",
+            "start": 166,
+            "end": 200,
+            "callee": {
+              "type": "Identifier",
+              "start": 166,
+              "end": 173,
+              "name": "require"
+            },
+            "arguments": [
+              {
+                "type": "Literal",
+                "start": 174,
+                "end": 199,
+                "value": "../../controllers/index",
+                "raw": "'../../controllers/index'"
+              }
+            ],
+            "optional": false
+          }
+        }
+      ],
+      "kind": "const"
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 220,
+      "end": 256,
+      "expression": {
+        "type": "CallExpression",
+        "start": 220,
+        "end": 255,
+        "callee": {
+          "type": "MemberExpression",
+          "start": 220,
+          "end": 231,
+          "object": {
+            "type": "Identifier",
+            "start": 220,
+            "end": 226,
+            "name": "router"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 227,
+            "end": 231,
+            "name": "post"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 232,
+            "end": 242,
+            "value": "/v1/note",
+            "raw": "'/v1/note'"
+          },
+          {
+            "type": "Identifier",
+            "start": 244,
+            "end": 254,
+            "name": "createNote"
+          }
+        ],
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 257,
+      "end": 296,
+      "expression": {
+        "type": "CallExpression",
+        "start": 257,
+        "end": 295,
+        "callee": {
+          "type": "MemberExpression",
+          "start": 257,
+          "end": 267,
+          "object": {
+            "type": "Identifier",
+            "start": 257,
+            "end": 263,
+            "name": "router"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 264,
+            "end": 267,
+            "name": "put"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 268,
+            "end": 282,
+            "value": "/v1/note/:id",
+            "raw": "'/v1/note/:id'"
+          },
+          {
+            "type": "Identifier",
+            "start": 284,
+            "end": 294,
+            "name": "updateNote"
+          }
+        ],
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 297,
+      "end": 339,
+      "expression": {
+        "type": "CallExpression",
+        "start": 297,
+        "end": 338,
+        "callee": {
+          "type": "MemberExpression",
+          "start": 297,
+          "end": 310,
+          "object": {
+            "type": "Identifier",
+            "start": 297,
+            "end": 303,
+            "name": "router"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 304,
+            "end": 310,
+            "name": "delete"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 311,
+            "end": 325,
+            "value": "/v1/note/:id",
+            "raw": "'/v1/note/:id'"
+          },
+          {
+            "type": "Identifier",
+            "start": 327,
+            "end": 337,
+            "name": "deleteNote"
+          }
+        ],
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 340,
+      "end": 376,
+      "expression": {
+        "type": "CallExpression",
+        "start": 340,
+        "end": 375,
+        "callee": {
+          "type": "MemberExpression",
+          "start": 340,
+          "end": 350,
+          "object": {
+            "type": "Identifier",
+            "start": 340,
+            "end": 346,
+            "name": "router"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 347,
+            "end": 350,
+            "name": "get"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 351,
+            "end": 365,
+            "value": "/v1/note/:id",
+            "raw": "'/v1/note/:id'"
+          },
+          { "type": "Identifier", "start": 367, "end": 374, "name": "getNote" }
+        ],
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 377,
+      "end": 424,
+      "expression": {
+        "type": "CallExpression",
+        "start": 377,
+        "end": 423,
+        "callee": {
+          "type": "MemberExpression",
+          "start": 377,
+          "end": 388,
+          "object": {
+            "type": "Identifier",
+            "start": 377,
+            "end": 383,
+            "name": "router"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 384,
+            "end": 388,
+            "name": "post"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 389,
+            "end": 408,
+            "value": "/v1/note/paginate",
+            "raw": "'/v1/note/paginate'"
+          },
+          {
+            "type": "Identifier",
+            "start": 410,
+            "end": 422,
+            "name": "paginateNote"
+          }
+        ],
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 427,
+      "end": 450,
+      "expression": {
+        "type": "AssignmentExpression",
+        "start": 427,
+        "end": 450,
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "start": 427,
+          "end": 441,
+          "object": {
+            "type": "Identifier",
+            "start": 427,
+            "end": 433,
+            "name": "module"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 434,
+            "end": 441,
+            "name": "exports"
+          },
+          "computed": false,
+          "optional": false
+        },
+        "right": {
+          "type": "Identifier",
+          "start": 444,
+          "end": 450,
+          "name": "router"
+        }
+      }
+    }
+  ],
+  "sourceType": "script"
+}

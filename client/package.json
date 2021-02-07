@@ -1,0 +1,21 @@
+{
+  "name": "project1",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "acorn": "^8.0.5",
+    "fs": "0.0.1-security",
+    "fs-react": "0.0.4",
+    "radium": "^0.25.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "1.1.5",
+    "require": "^2.4.20"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
