@@ -1,21 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-
-
-import './App.css';
-import Converter from './components/converter';
+import "./App.css";
+import Converter from "./components/converter";
 
 class App extends Component {
- 
   render() {
-   
-
-   
-        return (
-      <div className="App">
-    <Converter />
-    <p>Hiii</p>   
-      
+    return (
+      <div>
+        <Converter />
       </div>
     );
   }

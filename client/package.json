@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.4.0",
     "acorn": "^8.0.5",
+    "antd": "^4.12.2",
+    "axios": "^0.21.1",
     "fs": "0.0.1-security",
     "fs-react": "0.0.4",
+    "lodash": "^4.17.20",
     "radium": "^0.25.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

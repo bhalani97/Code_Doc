@@ -1,9 +1,9 @@
 [
     {
-        "path":"/admin/note/paginate",
         "methodName":"admin",
+        "arguments":["hasAuthToken","/admin/note/paginate"],
         "exec":{
-            
+
         }
 
     }

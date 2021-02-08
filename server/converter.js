@@ -1,19 +1,21 @@
 const acorn = require("acorn");
 const fs = require("fs");
-let cnt = 0;
+const walk = require("acorn-walk");
 const converter = (req, resp) => {
   try {
-
     const body = req.body;
     console.log(body);
-    // const temp = fs.readFile(body.path + "/app.js").toString()
-    cnt = cnt++;
-    while (true){
-        console.log(cnt)
-    }
-    return resp.send({ body });
+    let temp = "";
+    temp = fs.readFileSync(body.path + "/app.js");
+    temp = acorn.parse(temp.toString());
+    walk.simple(temp, {
+      ExpressionStatement(node) {
+        console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
+      },
+    });
+    return resp.send({ data: temp });
     const data = acorn.parse();
-    console.log(data )
+    console.log(data);
     _.forEach(data.body, (d, i) => {
       //   console.log("data",d,i)
       let dict = {};
