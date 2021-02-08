@@ -4,3 +4,4 @@ server/.vscode
 server/.history
 client/.history
 .history
+/server/debug.log

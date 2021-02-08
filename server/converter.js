@@ -1,6 +1,7 @@
 const acorn = require("acorn");
 const fs = require("fs");
 const walk = require("acorn-walk");
+const _ = require('lodash')
 const converter = (req, resp) => {
   try {
     const body = req.body;
@@ -8,11 +9,26 @@ const converter = (req, resp) => {
     let temp = "";
     temp = fs.readFileSync(body.path + "/app.js");
     temp = acorn.parse(temp.toString());
-    walk.simple(temp, {
-      ExpressionStatement(node) {
-        console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
-      },
+    _.forEach(temp.body, (t,i) => {
+      if(t.type==="VariableDeclaration"){
+        _.forEach(t.declarations,(d,j)=>{
+          if(d.init && d.init.callee && d.init.callee.name=== "require"){
+          _.forEach(d.init.arguments,(v,k)=>{
+            // console.log("Hi",v)
+            let recPath = body.path
+            if(_.startsWith(v.value,"./")){
+              recPath = recPath + v.value.split()
+            }
+          })
+          }
+        })
+      }
     });
+    // walk.simple(temp, {
+      // ExpressionStatement(node) {
+        // console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
+      // },
+    // });
     return resp.send({ data: temp });
     const data = acorn.parse();
     console.log(data);
