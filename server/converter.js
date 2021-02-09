@@ -86,6 +86,29 @@ const converter = (req, resp) => {
   }
 };
 
+const ast = (basePath) =>{
+
+  temp = fs.readFileSync(body.path + "/app.js");
+  temp = acorn.parse(temp.toString());
+  _.forEach(temp.body, (t, i) => {
+    if (t.type === "VariableDeclaration") {
+      _.forEach(t.declarations, (d, j) => {
+        if (d.init && d.init.callee && d.init.callee.name === "require") {
+          _.forEach(d.init.arguments, (v, k) => {
+            // console.log("Hi",v.value)
+            // let recPath = body.path;
+            let filePath = pathMaker(body.path, v.value);
+            if (filePath) {
+              let finalPath =   filePathMaker(pathMaker(body.path, v.value))
+            }
+          });
+        }
+      });
+    }
+  });
+
+}
+
 const pathMaker = (basePath, requiredPath) => {
   let absPath = "";
   if (_.startsWith(requiredPath, "./")) {
