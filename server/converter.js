@@ -10,33 +10,34 @@ const converter = (req, resp) => {
     const body = req.body;
     console.log(body);
     let temp = "";
-    temp = fs.readFileSync(body.path + "/app.js");
-    temp = acorn.parse(temp.toString());
-    _.forEach(temp.body, (t, i) => {
-      if (t.type === "VariableDeclaration") {
-        _.forEach(t.declarations, (d, j) => {
-          if (d.init && d.init.callee && d.init.callee.name === "require") {
-            _.forEach(d.init.arguments, (v, k) => {
-              // console.log("Hi",v.value)
-              // let recPath = body.path;
-              let filePath = pathMaker(body.path, v.value);
-              if (filePath) {
-                console.log(
-                  "🚀 ~ file: converter.js ~ line 23 ~ _.forEach ~ filePath",
-                  filePathMaker(pathMaker(body.path, v.value))
-                );
-              }
-            });
-          }
-        });
-      }
-    });
-    // walk.simple(temp, {
+    let response = ast(body.path + "/app.js", body.path);
+    // temp = fs.readFileSync(body.path + "/app.js");
+    // temp = acorn.parse(temp.toString());
+    // _.forEach(temp.body, (t, i) => {
+    //   if (t.type === "VariableDeclaration") {
+    //     _.forEach(t.declarations, (d, j) => {
+    //       if (d.init && d.init.callee && d.init.callee.name === "require") {
+    //         _.forEach(d.init.arguments, (v, k) => {
+    //           // console.log("Hi",v.value)
+    //           // let recPath = body.path;
+    //           let filePath = pathMaker(body.path, v.value);
+    //           if (filePath) {
+    //             console.log(
+    //               "🚀 ~ file: converter.js ~ line 23 ~ _.forEach ~ filePath",
+    //               filePathMaker(pathMaker(body.path, v.value))
+    //             );
+    //           }
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+    // // walk.simple(temp, {
     // ExpressionStatement(node) {
     // console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
     // },
     // });
-    return resp.send({ data: temp });
+    return resp.send({ data: response  });
     const data = acorn.parse();
     console.log(data);
     _.forEach(data.body, (d, i) => {
@@ -86,9 +87,8 @@ const converter = (req, resp) => {
   }
 };
 
-const ast = (basePath) =>{
-
-  temp = fs.readFileSync(body.path + "/app.js");
+const ast = (file, basePath) => {
+  temp = fs.readFileSync(file);
   temp = acorn.parse(temp.toString());
   _.forEach(temp.body, (t, i) => {
     if (t.type === "VariableDeclaration") {
@@ -97,17 +97,20 @@ const ast = (basePath) =>{
           _.forEach(d.init.arguments, (v, k) => {
             // console.log("Hi",v.value)
             // let recPath = body.path;
-            let filePath = pathMaker(body.path, v.value);
+            let filePath = pathMaker(basePath, v.value);
             if (filePath) {
-              let finalPath =   filePathMaker(pathMaker(body.path, v.value))
+              let finalPath = filePathMaker(pathMaker(basePath, v.value));
+              if (_.endsWith(finalPath, ".js")) {
+                t.tree = ast(finalPath, filePath);
+              }
             }
           });
         }
       });
     }
   });
-
-}
+  return temp;
+};
 
 const pathMaker = (basePath, requiredPath) => {
   let absPath = "";
