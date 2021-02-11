@@ -4,7 +4,8 @@ const walk = require("acorn-walk");
 const _ = require("lodash");
 const path = require("path");
 const e = require("cors");
-
+const extract = require('acorn-extract-comments')
+const babylon = require('babylon')
 const converter = (req, resp) => {
   try {
     const body = req.body;
@@ -37,7 +38,7 @@ const converter = (req, resp) => {
     // console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
     // },
     // });
-    return resp.send({ data: response  });
+    return resp.send({ data: response });
     const data = acorn.parse();
     console.log(data);
     _.forEach(data.body, (d, i) => {
@@ -89,8 +90,10 @@ const converter = (req, resp) => {
 
 const ast = (file, basePath) => {
   temp = fs.readFileSync(file);
-  temp = acorn.parse(temp.toString());
-  _.forEach(temp.body, (t, i) => {
+  // const comments = extract.(temp.toString(), {})
+  temp = babylon.parse(temp.toString());
+  // console.log("🚀 ~ file: converter.js ~ line 95 ~ ast ~ comments", comments)
+  _.forEach(temp.program.body, (t, i) => {
     if (t.type === "VariableDeclaration") {
       _.forEach(t.declarations, (d, j) => {
         if (d.init && d.init.callee && d.init.callee.name === "require") {
@@ -98,9 +101,14 @@ const ast = (file, basePath) => {
             // console.log("Hi",v.value)
             // let recPath = body.path;
             let filePath = pathMaker(basePath, v.value);
+            console.log(
+              "🚀 ~ file: converter.js ~ line 103 ~ _.forEach ~ finalPath",
+              filePath
+            );
             if (filePath) {
-              let finalPath = filePathMaker(pathMaker(basePath, v.value));
+              let finalPath = filePathMaker(filePath);
               if (_.endsWith(finalPath, ".js")) {
+                console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ", finalPath);
                 t.tree = ast(finalPath, filePath);
               }
             }
@@ -139,10 +147,10 @@ const pathMaker = (basePath, requiredPath) => {
   return "";
 };
 const filePathMaker = (filePath) => {
-  if (fs.existsSync(filePath + ".js")) {
-    return filePath + ".js";
-  } else if (fs.existsSync(filePath + "/index.js")) {
+  if (fs.existsSync(filePath + "/index.js")) {
     return filePath + "/index.js";
+  } else if (fs.existsSync(filePath + ".js")) {
+    return filePath + ".js";
   } else {
     return filePath;
   }
