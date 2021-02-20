@@ -4,14 +4,28 @@ const walk = require("acorn-walk");
 const _ = require("lodash");
 const path = require("path");
 const e = require("cors");
-const extract = require('acorn-extract-comments')
-const babylon = require('babylon')
+const extract = require("acorn-extract-comments");
+const babylon = require("babylon");
+const js2flowchart = require("js2flowchart");
+const recast = require('recast')
+const {
+  ABSTRACTION_LEVELS,
+  createFlowTreeBuilder,
+  convertFlowTreeToSvg,
+} = js2flowchart;
+const flowTreeBuilder = createFlowTreeBuilder();
+flowTreeBuilder.setAbstractionLevel([
+  ABSTRACTION_LEVELS.IMPORT,
+  ABSTRACTION_LEVELS.EXPORT,
+]);
+
 const converter = (req, resp) => {
   try {
     const body = req.body;
     console.log(body);
     let temp = "";
     let response = ast(body.path + "/app.js", body.path);
+    return response;
     // temp = fs.readFileSync(body.path + "/app.js");
     // temp = acorn.parse(temp.toString());
     // _.forEach(temp.body, (t, i) => {
@@ -88,28 +102,49 @@ const converter = (req, resp) => {
   }
 };
 
-const ast = (file, basePath) => {
+const ast = async (file, basePath) => {
+  console.log("🚀 11 = ", file);
   temp = fs.readFileSync(file);
+
+  // let conData = convertCodeToFlowTree(temp.toString());
+  // // console.log(conData)
+  // _.map(conData.body, (d) => {
+  //   // console.log("🚀 ~ file: converter.js ~ line 97 ~ ast ~ d", d);
+  //   if (d.name === "app.use('/api', hasDeviceToken, device)") {
+  //     console.log("Hi", d.parent.parent[0].body);
+  //   }
+  // });
+
+  // fs.writeFileSync("routes.json", JSON.stringify(data));
+
   // const comments = extract.(temp.toString(), {})
   temp = babylon.parse(temp.toString());
-  // console.log("🚀 ~ file: converter.js ~ line 95 ~ ast ~ comments", comments)
+  const { Parser } = require("acorn")
+
+  const ast1 = Parser.parse(fs.readFileSync(file).toString())
+  const functionNames = [];
+  recast.visit(ast1, visitFunctionDeclaration = (path) => {
+    console.log(path.node.type);
+    functionNames.push(path.node.id.name);
+    return false;
+  })
+  console.log("🚀 ~ file: converter.js ~ line 126 ~ ast ~ functionNames", functionNames)
+
+  
+
+  // console.log("🚀 ~ file: converter.js ~ line 95 ~ ast ~ comments", temp);
   _.forEach(temp.program.body, (t, i) => {
     if (t.type === "VariableDeclaration") {
       _.forEach(t.declarations, (d, j) => {
         if (d.init && d.init.callee && d.init.callee.name === "require") {
+          // console.log("🚀 ~ file: converter.js ~ line 102 ~ _.forEach ~ d.init.arguments", d.init.arguments)
           _.forEach(d.init.arguments, (v, k) => {
-            // console.log("Hi",v.value)
-            // let recPath = body.path;
             let filePath = pathMaker(basePath, v.value);
-            console.log(
-              "🚀 ~ file: converter.js ~ line 103 ~ _.forEach ~ finalPath",
-              filePath
-            );
             if (filePath) {
               let finalPath = filePathMaker(filePath);
               if (_.endsWith(finalPath, ".js")) {
-                console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ", finalPath);
-                t.tree = ast(finalPath, filePath);
+                console.log("🚀 12 = ", finalPath);
+                temp.program.body = ast(finalPath, filePath);
               }
             }
           });
@@ -122,7 +157,7 @@ const ast = (file, basePath) => {
 
 const pathMaker = (basePath, requiredPath) => {
   let absPath = "";
-  if (_.startsWith(requiredPath, "./")) {
+  if (_.startsWith(requiredPath, "./") || _.startsWith(requiredPath, "../")) {
     let chunksOfBasePath = basePath.split("/");
     let chunksOfRequiredPath = [];
     _.map(requiredPath.split("/"), (p) => {

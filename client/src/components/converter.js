@@ -13,7 +13,7 @@ const Converter = (props) => {
   const [path, setPath] = useState([]);
 
   const fetch = () => {
-    getDataWithPost("/data", { path: "/home/divyeshbhalani/note-service" })
+    getDataWithPost("/data", { path: "/home/divyeshbhalani/todo-service" })
       .then((data) => {
         let tempDict = [];
         // _.forEach(data.data.data.body, (d, i) => {
