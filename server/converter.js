@@ -7,7 +7,8 @@ const e = require("cors");
 const extract = require("acorn-extract-comments");
 const babylon = require("babylon");
 const js2flowchart = require("js2flowchart");
-const recast = require('recast')
+const recast = require('recast');
+const { stringify } = require("querystring");
 const {
   ABSTRACTION_LEVELS,
   createFlowTreeBuilder,
@@ -19,121 +20,38 @@ flowTreeBuilder.setAbstractionLevel([
   ABSTRACTION_LEVELS.EXPORT,
 ]);
 
-const converter = (req, resp) => {
+const converter =async (req, resp) => {
   try {
     const body = req.body;
     console.log(body);
     let temp = "";
-    let response = ast(body.path + "/app.js", body.path);
-    return response;
-    // temp = fs.readFileSync(body.path + "/app.js");
-    // temp = acorn.parse(temp.toString());
-    // _.forEach(temp.body, (t, i) => {
-    //   if (t.type === "VariableDeclaration") {
-    //     _.forEach(t.declarations, (d, j) => {
-    //       if (d.init && d.init.callee && d.init.callee.name === "require") {
-    //         _.forEach(d.init.arguments, (v, k) => {
-    //           // console.log("Hi",v.value)
-    //           // let recPath = body.path;
-    //           let filePath = pathMaker(body.path, v.value);
-    //           if (filePath) {
-    //             console.log(
-    //               "🚀 ~ file: converter.js ~ line 23 ~ _.forEach ~ filePath",
-    //               filePathMaker(pathMaker(body.path, v.value))
-    //             );
-    //           }
-    //         });
-    //       }
-    //     });
-    //   }
-    // });
-    // // walk.simple(temp, {
-    // ExpressionStatement(node) {
-    // console.log("🚀 ~ file: converter.js ~ line 13 ~ Literal ~ node", node);
-    // },
-    // });
-    return resp.send({ data: response });
-    const data = acorn.parse();
-    console.log(data);
-    _.forEach(data.body, (d, i) => {
-      //   console.log("data",d,i)
-      let dict = {};
-      if (d.type === "ExpressionStatement") {
-        if (d.expression.type) {
-          if (d.expression.callee) {
-            if (d.expression.callee.type === "MemberExpression") {
-              if (d.expression.callee.object.name === "app") {
-                _.map(d.expression.arguments, (arg) => {
-                  if (arg.type === "Literal") {
-                    dict.path = arg.value;
-                  }
-                  if (arg.type === "Identifier") {
-                    dict.methodName = arg.name;
-                  }
-                });
-              }
-            }
-          }
-        }
-      }
-      if (dict.path && dict.methodName) {
-        console.log("dict.path && dict.methodName", dict.path, dict.methodName);
-        _.map(data.body, (d) => {
-          _.map(d.declarations, (d) => {
-            if (d.id && d.id.name === dict.methodName) {
-              if (d.init && d.init.arguments) {
-                _.map(d.init.arguments, (t) => {
-                  const tempData = fs
-                    .readFileSync(appPath + t.value.split(".")[1] + "/index.js")
-                    .toString();
-                  const data = acorn.parse(tempData);
-                  fs.writeFileSync("routes.json", JSON.stringify(data));
-                });
-              }
-            }
-          });
-        });
-      }
-    });
-
-    // fs.writeFileSync("parsed.json",JSON.stringify(acorn.parse(data)))
+    let response =await ast(body.path + "/app.js", body.path);
+    return resp.json(response);
   } catch (error) {
     console.log(error);
   }
 };
 
 const ast = async (file, basePath) => {
-  console.log("🚀 11 = ", file);
-  temp = fs.readFileSync(file);
-
-  // let conData = convertCodeToFlowTree(temp.toString());
-  // // console.log(conData)
-  // _.map(conData.body, (d) => {
-  //   // console.log("🚀 ~ file: converter.js ~ line 97 ~ ast ~ d", d);
-  //   if (d.name === "app.use('/api', hasDeviceToken, device)") {
-  //     console.log("Hi", d.parent.parent[0].body);
-  //   }
-  // });
-
-  // fs.writeFileSync("routes.json", JSON.stringify(data));
-
-  // const comments = extract.(temp.toString(), {})
-  temp = babylon.parse(temp.toString());
-  const { Parser } = require("acorn")
-
-  const ast1 = Parser.parse(fs.readFileSync(file).toString())
-  const functionNames = [];
-  recast.visit(ast1, visitFunctionDeclaration = (path) => {
-    console.log(path.node.type);
-    functionNames.push(path.node.id.name);
-    return false;
-  })
-  console.log("🚀 ~ file: converter.js ~ line 126 ~ ast ~ functionNames", functionNames)
-
+  stringifyCode = fs.readFileSync(file).toString();
+  astC = babylon.parse(stringifyCode);
+  console.log("FILE NAME",file)
   
-
-  // console.log("🚀 ~ file: converter.js ~ line 95 ~ ast ~ comments", temp);
+  return {
+    fileName:file,
+    code:stringifyCode,
+    ast:astC
+  }
+  fs.writeFileSync("parsed1.json",JSON.stringify(temp))
+  _.forEach(astC.program.body,(t,i)=>{
+    _.forEach(t.declarations, (d, j) => {
+      if(d.init.type==="CallExpression"){
+        console.log(stringifyCode.substring(d.init.start,d.init.end))
+      }
+    })
+  })
   _.forEach(temp.program.body, (t, i) => {
+    
     if (t.type === "VariableDeclaration") {
       _.forEach(t.declarations, (d, j) => {
         if (d.init && d.init.callee && d.init.callee.name === "require") {
@@ -144,7 +62,7 @@ const ast = async (file, basePath) => {
               let finalPath = filePathMaker(filePath);
               if (_.endsWith(finalPath, ".js")) {
                 console.log("🚀 12 = ", finalPath);
-                temp.program.body = ast(finalPath, filePath);
+                // temp.program.body = ast(finalPath, filePath);
               }
             }
           });
@@ -192,4 +110,3 @@ const filePathMaker = (filePath) => {
 };
 
 module.exports = converter;
-filePathMaker;
