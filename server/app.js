@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const converter = require('./converter')
+const converter = require('./converter');
+const info = require('./info');
 const PORT = 8000
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
 app.use((_, res, next) => {
 
@@ -15,9 +17,9 @@ app.use((_, res, next) => {
 // app.use('/admin', cors(corsOptions), admin)  
 // getFacData()
 // listen for requests
-app.use(cors())
 app.post('/data',converter)
 
+app.post('/getInfo',info)
 
 
 app.listen(PORT, () => {

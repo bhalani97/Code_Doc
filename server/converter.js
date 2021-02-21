@@ -33,16 +33,17 @@ const converter =async (req, resp) => {
 };
 
 const ast = async (file, basePath) => {
-  stringifyCode = fs.readFileSync(file).toString();
-  astC = babylon.parse(stringifyCode);
+  let stringifyCode = fs.readFileSync(file).toString();
+  let astC = babylon.parse(stringifyCode);
   console.log("FILE NAME",file)
+  fs.writeFileSync("parsed1.json",JSON.stringify(astC))
   
   return {
+    basePath,
     fileName:file,
     code:stringifyCode,
     ast:astC
   }
-  fs.writeFileSync("parsed1.json",JSON.stringify(temp))
   _.forEach(astC.program.body,(t,i)=>{
     _.forEach(t.declarations, (d, j) => {
       if(d.init.type==="CallExpression"){
