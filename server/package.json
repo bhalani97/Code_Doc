@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/traverse": "^7.12.17",
+    "@babel/types": "^7.12.17",
     "acorn": "^8.0.5",
     "acorn-extract-comments": "^0.2.0",
     "acorn-walk": "^8.0.2",
