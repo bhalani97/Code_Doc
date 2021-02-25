@@ -47,7 +47,7 @@ const ObjectTypePattenRequireSolver = async (astC, body) => {
         for (let j = 0; j < _.size(t.declarations); j++) {
           let d = t.declarations[j];
           if (d.init && d.init.callee && d.init.callee.name === "require") {
-            // fs.writeFileSync("parsed1.json", JSON.stringify(d));
+            fs.writeFileSync("parsed1.json", JSON.stringify(d));
             for (let x = 0; x < _.size(d.id.properties); x++) {
               let p = d.id.properties[x];
               if (p.key.name === body.clickedPart) {
@@ -56,8 +56,8 @@ const ObjectTypePattenRequireSolver = async (astC, body) => {
                   let filePath = pathMaker(body.basePath, v.value);
                   if (filePath) {
                     let finalPath = filePathMaker(filePath);
-                    if (_.endsWith(finalPath, ".js")) {
-                      response = await ast(finalPath, filePath);
+                    if (_.endsWith(finalPath.filePath, ".js")) {
+                      response = await ast(finalPath.filePath, finalPath.basePath);
                     }
                   }
                 }
@@ -81,21 +81,35 @@ const SimplePattenRequireSolver = async (astC, body) => {
     let response = {};
     for (let i = 0; i < _.size(astC.program.body); i++) {
       let t = astC.program.body[i];
+      fs.writeFileSync("parsed1.json", JSON.stringify(t));
       for (let j = 0; j < _.size(t.declarations); j++) {
         let d = t.declarations[j];
-        if (d.init && d.init.callee && d.init.callee.name === "require" && d.id.name===body.clickedPart) {
-          // fs.writeFileSync("parsed1.json", JSON.stringify(d));
-
-          for (let y = 0; y < _.size(d.init.arguments); y++) {
-            v = d.init.arguments[y];
-            let filePath = pathMaker(body.basePath, v.value);
-            if (filePath) {
-              let finalPath = filePathMaker(filePath);
-              if (_.endsWith(finalPath, ".js")) {
-                response = await ast(finalPath, filePath);
+        if (d.init && d.init.callee && (d.init.callee.name === "require" || _.size(d.init.callee.arguments)>0) && d.id.name===body.clickedPart) {
+          if(_.size(d.init.callee.arguments)){
+            for (let y = 0; y < _.size(d.init.callee.arguments); y++) {
+              v = d.init.callee.arguments[y];
+              let filePath = pathMaker(body.basePath, v.value);
+              if (filePath) {
+                let finalPath = filePathMaker(filePath);
+                if (_.endsWith(finalPath.filePath, ".js")) {
+                  response = await ast(finalPath.filePath, finalPath.basePath);
+                }
               }
             }
           }
+          else{
+            for (let y = 0; y < _.size(d.init.arguments); y++) {
+              v = d.init.arguments[y];
+              let filePath = pathMaker(body.basePath, v.value);
+              if (filePath) {
+                let finalPath = filePathMaker(filePath);
+                if (_.endsWith(finalPath.filePath, ".js")) {
+                  response = await ast(finalPath.filePath, finalPath.basePath);
+                }
+              }
+            }
+          }
+          
         }
       }
     }
