@@ -47,7 +47,7 @@ const ObjectTypePattenRequireSolver = async (astC, body) => {
         for (let j = 0; j < _.size(t.declarations); j++) {
           let d = t.declarations[j];
           if (d.init && d.init.callee && d.init.callee.name === "require") {
-            fs.writeFileSync("parsed1.json", JSON.stringify(d));
+            // fs.writeFileSync("parsed1.json", JSON.stringify(d));
             for (let x = 0; x < _.size(d.id.properties); x++) {
               let p = d.id.properties[x];
               if (p.key.name === body.clickedPart) {
@@ -81,7 +81,7 @@ const SimplePattenRequireSolver = async (astC, body) => {
     let response = {};
     for (let i = 0; i < _.size(astC.program.body); i++) {
       let t = astC.program.body[i];
-      fs.writeFileSync("parsed1.json", JSON.stringify(t));
+      // fs.writeFileSync("parsed1.json", JSON.stringify(t));
       for (let j = 0; j < _.size(t.declarations); j++) {
         let d = t.declarations[j];
         if (d.init && d.init.callee && (d.init.callee.name === "require" || _.size(d.init.callee.arguments)>0) && d.id.name===body.clickedPart) {
